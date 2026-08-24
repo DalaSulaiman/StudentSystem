@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws StudentNotFoundException {
         StudentManager manager = new StudentManager();
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -35,11 +35,14 @@ public class Main {
                         if (scanner.hasNextInt()) {
                             id = scanner.nextInt();
                             //check if ID already exists
-                            if (manager.searchStudentById(id) != null) {
-                                System.out.println("Error: Students ID already exists! Try another ID");
-                            } else {
+                            try {
+                                if (manager.searchStudentById(id) != null) {
+                                    System.out.println("Error: Student ID exists! Try another ID.");
+                                }
+                            } catch (StudentNotFoundException e) {
                                 break;
                             }
+
                         } else {
                             System.out.println("Invalid ID! Please enter number only");
                             scanner.next();
@@ -85,29 +88,28 @@ public class Main {
 
                         case 3: // Search Student
                             System.out.print("Enter Student ID to Search: ");
-                            if (scanner.hasNextInt()) {
+
                                 int searchId = scanner.nextInt();
-                                Student foundStudent = manager.searchStudentById(searchId);
-                                if (foundStudent != null) {
-                                    System.out.println("Student Found: " + foundStudent);
-                                } else {
-                                    System.out.println("Student with ID " + searchId + " not found.");
+                                try {
+                                    Student foundStudent = manager.searchStudentById(searchId);
+                                    System.out.println("Student Found: "+ foundStudent);
+                                }catch (StudentNotFoundException e){
+                                    System.out.println("Error: "+e.getMessage());
                                 }
-                            } else {
-                                System.out.println("Invalid ID format.");
-                                scanner.next();
-                            }
                             break;
                         case 4: // Delete Student
                             System.out.print("Enter Student ID to Delete: ");
                             if (scanner.hasNextInt()) {
                                 int deleteId = scanner.nextInt();
-                                boolean isDeleted = manager.deleteStudent(deleteId);
-                                if (isDeleted) {
-                                    System.out.println("Student deleted successfully!");
-                                } else {
-                                    System.out.println("Student with ID " + deleteId + " not found.");
+                                try {
+                                    boolean isDeleted = manager.deleteStudent(deleteId);
+                                    if (isDeleted) {
+                                        System.out.println("Student deleted successfully!");
+                                    }
+                                } catch (StudentNotFoundException e) {
+                                    System.out.println("Error: " + e.getMessage());
                                 }
+
                             } else {
                                 System.out.println("Invalid ID format");
                                 scanner.next();
@@ -118,8 +120,12 @@ public class Main {
                     System.out.print("Enter Student ID to Update: ");
                     if (scanner.hasNextInt()) {
                         int updateId = scanner.nextInt();
-                        Student existing = manager.searchStudentById(updateId);
+                        Student existing = null;
+                        try {
+                            existing = manager.searchStudentById(updateId);
+                        } catch (StudentNotFoundException e) {
 
+                        }
                         if (existing != null) {
                             scanner.nextLine(); // Clear buffer
 

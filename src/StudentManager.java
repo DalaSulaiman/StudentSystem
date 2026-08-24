@@ -32,35 +32,30 @@ public class StudentManager {
         }
     }
 
-    // Method to search for a student by ID
-    public Student searchStudentById(int id) {
+    // Method to search for a student by ID +with Custom Exception
+    public Student searchStudentById(int id) throws StudentNotFoundException {
         for (Student s : studentList) {
             if (s.getId() == id) {
                 return s; // Return the student if found
             }
         }
-        return null; // Return null if student does not exist
+  throw new StudentNotFoundException("Student with ID "+ id + " was not found in the system");
     }
     // Method to update student details by ID
-    public boolean updateStudent(int id, String newName, double newGpa) {
+    public boolean updateStudent(int id, String newName, double newGpa)throws StudentNotFoundException {
         Student student = searchStudentById(id);
-        if (student != null) {
             student.setName(newName);
             student.setGpa(newGpa);
             saveDataToFile(); // Save changes immediately to text file
             return true;
         }
-        return false; // Student not found
-    }
 
     // Method to delete a student by ID
-    public boolean deleteStudent(int id) {
+    public boolean deleteStudent(int id) throws StudentNotFoundException{
         Student s = searchStudentById(id);
-        if (s != null) {
             studentList.remove(s);
+            saveDataToFile();
             return true; // Successfully deleted
-        }
-        return false; // Student not found
     }
     // save student list to text file using printWriter
     private void  saveDataToFile(){
