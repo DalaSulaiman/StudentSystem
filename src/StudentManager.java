@@ -122,5 +122,18 @@ public class StudentManager {
         System.out.println("Highest GPA: " + maxGpa);
         System.out.println("Lowest GPA: " + minGpa);
     }
+    // Method to sort students by GPA in descending order (Highest to Lowest)
+    public void sortStudentsByGpa() {
+        if (studentList.isEmpty()) {
+            System.out.println("No students available to sort.");
+            return;
+        }
+
+        // Using Lambda expression to compare GPA in descending order
+        studentList.sort((s1, s2) -> Double.compare(s2.getGpa(), s1.getGpa()));
+        saveDataToFile(); // Save sorted order to file
+        System.out.println("Students sorted by GPA successfully!");
+        displayAllStudents(); // Show the sorted list
+    }
 
 }

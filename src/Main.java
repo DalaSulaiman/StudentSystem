@@ -15,7 +15,8 @@ public class Main {
             System.out.println("4. Delete Student by ID");
             System.out.println("5. Update Student by ID");
             System.out.println("6. Display Statistics");
-            System.out.println("7. Exit");
+            System.out.println("7. Sort Students by GPA");
+            System.out.println("8. Exit");
             System.out.print("Choose an option: ");
 
             if (!scanner.hasNextLine()) {
@@ -165,8 +166,11 @@ public class Main {
                     manager.displayStatistics();
                     break;
 
+                case 7: // Sort Students by GPA
+                    manager.sortStudentsByGpa();
+                    break;
 
-                        case 7: // Exit application
+                    case 8: // Exit application
                             running = false;
                             System.out.println("Exiting application... Goodbye!");
                             break;
