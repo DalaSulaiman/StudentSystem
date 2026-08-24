@@ -1,6 +1,13 @@
 import java.util.Scanner;
 
 public class Main {
+
+    // ANSI Color Codes for Pretty Console Output
+    public static final String RESET = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
+
     public static void main(String[] args) throws StudentNotFoundException {
         StudentManager manager = new StudentManager();
         Scanner scanner = new Scanner(System.in);
@@ -20,7 +27,7 @@ public class Main {
             System.out.print("Choose an option: ");
 
             if (!scanner.hasNextLine()) {
-                System.out.println("Invalid input. Please enter a number.");
+                System.out.println(YELLOW +"Invalid input. Please enter a number."+ RESET);
                 scanner.next();
                 continue;
             }
@@ -37,14 +44,14 @@ public class Main {
                             //check if ID already exists
                             try {
                                 if (manager.searchStudentById(id) != null) {
-                                    System.out.println("Error: Student ID exists! Try another ID.");
+                                    System.out.println(RED +"Error: Student ID exists! Try another ID."+RESET);
                                 }
                             } catch (StudentNotFoundException e) {
                                 break;
                             }
 
                         } else {
-                            System.out.println("Invalid ID! Please enter number only");
+                            System.out.println(YELLOW +"Invalid ID! Please enter number only"+RESET);
                             scanner.next();
                         }
                     }
@@ -60,7 +67,7 @@ public class Main {
                         if (name.matches("^[a-zA-Z\\s]+$")) {
                             break; // Valid name
                         } else {
-                            System.out.println("Invalid Name! Please enter letters only (no numbers or special characters).");
+                            System.out.println(YELLOW+"Invalid Name! Please enter letters only (no numbers or special characters)."+RESET);
                         }
                     }
 
@@ -72,10 +79,10 @@ public class Main {
                             if (gpa >= 0.0 && gpa <= 5.0) {
                                 break; //Valid GPA
                             } else {
-                                System.out.println("Invalid GPA! Must be between 0.0 and 5.0.");
+                                System.out.println(YELLOW+"Invalid GPA! Must be between 0.0 and 5.0."+RESET);
                             }
                             }else{
-                                System.out.println("Invalid input! Please enter a valid decimal number.");
+                                System.out.println(YELLOW+"Invalid input! Please enter a valid decimal number."+RESET);
                                 scanner.next();
                             }
                         }
@@ -104,14 +111,14 @@ public class Main {
                                 try {
                                     boolean isDeleted = manager.deleteStudent(deleteId);
                                     if (isDeleted) {
-                                        System.out.println("Student deleted successfully!");
+                                        System.out.println(GREEN+"Student deleted successfully!"+RESET);
                                     }
                                 } catch (StudentNotFoundException e) {
                                     System.out.println("Error: " + e.getMessage());
                                 }
 
                             } else {
-                                System.out.println("Invalid ID format");
+                                System.out.println(YELLOW+"Invalid ID format"+RESET);
                                 scanner.next();
                             }
                             break;
@@ -137,7 +144,7 @@ public class Main {
                                 if (newName.matches("^[a-zA-Z\\s]+$")) {
                                     break;
                                 } else {
-                                    System.out.println("Invalid Name! Letters only.");
+                                    System.out.println(YELLOW+"Invalid Name! Letters only."+RESET);
                                 }
                             }
 
@@ -150,21 +157,21 @@ public class Main {
                                     if (newGpa >= 0.0 && newGpa <= 5.0) {
                                         break;
                                     } else {
-                                        System.out.println("Invalid GPA! Must be between 0.0 and 5.0.");
+                                        System.out.println(YELLOW+"Invalid GPA! Must be between 0.0 and 5.0."+RESET);
                                     }
                                 } else {
-                                    System.out.println("Invalid input!");
+                                    System.out.println(YELLOW+"Invalid input!"+RESET);
                                     scanner.next();
                                 }
                             }
 
                             manager.updateStudent(updateId, newName, newGpa);
-                            System.out.println("Student updated successfully!");
+                            System.out.println(GREEN+"Student updated successfully!"+RESET);
                         } else {
                             System.out.println("Student with ID " + updateId + " not found.");
                         }
                     } else {
-                        System.out.println("Invalid ID format.");
+                        System.out.println(YELLOW+"Invalid ID format."+RESET);
                         scanner.next();
                     }
                     break;
@@ -182,7 +189,7 @@ public class Main {
                             break;
 
                         default:
-                            System.out.println("Invalid choice. Please try again.");
+                            System.out.println(YELLOW+"Invalid choice. Please try again."+RESET);
                     }
             }
             scanner.close();

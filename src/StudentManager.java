@@ -1,8 +1,10 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class StudentManager {
+
     // List to store Student objects dynamically
     private ArrayList<Student> studentList;
     private  final String FILE_NAME = "students.txt"; // file name to store data
@@ -23,13 +25,16 @@ public class StudentManager {
     // Method to display all students
     public void displayAllStudents() {
         if (studentList.isEmpty()) {
-            System.out.println("No students found.");
+            System.out.println("No students found in the system.");
             return;
         }
-        System.out.println("\n--- All Students List ---");
+        System.out.println("\n------------------------------------------------");
+        System.out.printf("| %-10s | %-20s | %-8s |\n", "ID", "Name", "GPA");
+        System.out.println("------------------------------------------------");
         for (Student s : studentList) {
-            System.out.println(s);
+            System.out.printf("| %-10d | %-20s | %-8.2f |\n", s.getId(), s.getName(), s.getGpa());
         }
+        System.out.println("------------------------------------------------");
     }
 
     // Method to search for a student by ID +with Custom Exception
@@ -130,5 +135,24 @@ public class StudentManager {
         System.out.println("Students sorted by GPA successfully!");
         displayAllStudents(); // Show the sorted list
     }
+    public List<Student> getStudentList() {
+        return studentList;
+    }
+    // Method to calculate average GPA
+    public double calculateAverageGpa() {
+        if (studentList.isEmpty()) {
+            return 0.0;
+        }
+        double sum = 0;
+        for (Student s : studentList) {
+            sum += s.getGpa();
+        }
+        return sum / studentList.size();
+    }
+    // Method to sort students by GPA in descending order (Highest to Lowest)
+    public void sortByGpaDescending() {
+        studentList.sort((s1, s2) -> Double.compare(s2.getGpa(), s1.getGpa()));
+    }
+
 
 }
