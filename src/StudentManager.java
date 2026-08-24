@@ -41,6 +41,17 @@ public class StudentManager {
         }
         return null; // Return null if student does not exist
     }
+    // Method to update student details by ID
+    public boolean updateStudent(int id, String newName, double newGpa) {
+        Student student = searchStudentById(id);
+        if (student != null) {
+            student.setName(newName);
+            student.setGpa(newGpa);
+            saveDataToFile(); // Save changes immediately to text file
+            return true;
+        }
+        return false; // Student not found
+    }
 
     // Method to delete a student by ID
     public boolean deleteStudent(int id) {
@@ -62,6 +73,7 @@ public class StudentManager {
             System.out.println("Error saving data to file :"+e.getMessage());
         }
     }
+
     //Load student list from text file using Scanner
     private void loadDataFromFile(){
         File file = new File(FILE_NAME);
@@ -82,6 +94,33 @@ public class StudentManager {
         }catch (FileNotFoundException e){
             System.out.println("File not found: "+e.getMessage());
         }
+    }
+    // Method to calculate and display system statistics
+    public void displayStatistics() {
+        if (studentList.isEmpty()) {
+            System.out.println("No students available for statistics.");
+            return;
+        }
+
+        double totalGpa = 0;
+        double maxGpa = studentList.get(0).getGpa();
+        double minGpa = studentList.get(0).getGpa();
+
+        for (Student s : studentList) {
+            double gpa = s.getGpa();
+            totalGpa += gpa;
+
+            if (gpa > maxGpa) maxGpa = gpa;
+            if (gpa < minGpa) minGpa = gpa;
+        }
+
+        double averageGpa = totalGpa / studentList.size();
+
+        System.out.println("\n=== System Statistics ===");
+        System.out.println("Total Students: " + studentList.size());
+        System.out.printf("Average GPA: %.2f\n", averageGpa);
+        System.out.println("Highest GPA: " + maxGpa);
+        System.out.println("Lowest GPA: " + minGpa);
     }
 
 }

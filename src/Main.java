@@ -13,7 +13,9 @@ public class Main {
             System.out.println("2. Display All Students");
             System.out.println("3. Search Student by ID");
             System.out.println("4. Delete Student by ID");
-            System.out.println("5. Exit");
+            System.out.println("5. Update Student by ID");
+            System.out.println("6. Display Statistics");
+            System.out.println("7. Exit");
             System.out.print("Choose an option: ");
 
             if (!scanner.hasNextLine()) {
@@ -111,7 +113,60 @@ public class Main {
                             }
                             break;
 
-                        case 5: // Exit application
+                case 5: // Update Student
+                    System.out.print("Enter Student ID to Update: ");
+                    if (scanner.hasNextInt()) {
+                        int updateId = scanner.nextInt();
+                        Student existing = manager.searchStudentById(updateId);
+
+                        if (existing != null) {
+                            scanner.nextLine(); // Clear buffer
+
+                            // Validate New Name
+                            String newName;
+                            while (true) {
+                                System.out.print("Enter New Name: ");
+                                newName = scanner.nextLine().trim();
+                                if (newName.matches("^[a-zA-Z\\s]+$")) {
+                                    break;
+                                } else {
+                                    System.out.println("Invalid Name! Letters only.");
+                                }
+                            }
+
+                            // Validate New GPA
+                            double newGpa;
+                            while (true) {
+                                System.out.print("Enter New GPA (0.0 to 5.0): ");
+                                if (scanner.hasNextDouble()) {
+                                    newGpa = scanner.nextDouble();
+                                    if (newGpa >= 0.0 && newGpa <= 5.0) {
+                                        break;
+                                    } else {
+                                        System.out.println("Invalid GPA! Must be between 0.0 and 5.0.");
+                                    }
+                                } else {
+                                    System.out.println("Invalid input!");
+                                    scanner.next();
+                                }
+                            }
+
+                            manager.updateStudent(updateId, newName, newGpa);
+                            System.out.println("Student updated successfully!");
+                        } else {
+                            System.out.println("Student with ID " + updateId + " not found.");
+                        }
+                    } else {
+                        System.out.println("Invalid ID format.");
+                        scanner.next();
+                    }
+                    break;
+                case 6: // Display Statistics
+                    manager.displayStatistics();
+                    break;
+
+
+                        case 7: // Exit application
                             running = false;
                             System.out.println("Exiting application... Goodbye!");
                             break;
