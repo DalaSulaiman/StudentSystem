@@ -3,6 +3,8 @@
 A robust, Java-based console application built to manage student records efficiently using Core OOP principles, Custom Exception Handling, and File I/O for data persistence.
 
 ---
+![alt text](< Student Management Dashboard.png>)
+
 
 ## 🌟 Key Features
 
